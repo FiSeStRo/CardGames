@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Frontend TypeScript
+
+FrontendWeb/node_modules/
+FrontendWeb/dist/
+
