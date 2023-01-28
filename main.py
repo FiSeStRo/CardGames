@@ -1,5 +1,5 @@
-import deck
-import texts
+from Backend import deck
+from Backend import texts
 
 print("Hello CardGames!")
 
