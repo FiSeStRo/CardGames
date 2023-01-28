@@ -2,6 +2,15 @@ from Backend import definitions
 
 
 def calculate_hand_value(card_list):
+    color_list = []
+    value_list = []
+    for card in card_list:
+        color_list.append(card["color"])
+        value_list.append(card["value"])
+
+    color_list.sort()
+    value_list.sort()
+
     if check_for_royal_flush(card_list):
         return definitions.RANK_ROYAL_FLUSH
 
