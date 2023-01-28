@@ -1,24 +1,33 @@
-import type { Component } from 'solid-js';
+import { Component, createSignal } from "solid-js";
 
-import logo from './logo.svg';
-import styles from './App.module.css';
+import styles from "./App.module.css";
+import { Card } from "./utils.types";
+import { createCardDeck } from "./utils";
+import { getAssets } from "solid-js/web";
+import { getCardResults } from "./apiCalls";
 
 const App: Component = () => {
+  const [deck, setDeck] = createSignal<Card[]>([]);
+
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={() => {
+            setDeck(() => createCardDeck());
+          }}
         >
-          Learn Solid
-        </a>
+          {"create Deck"}
+        </button>
+        {/* <For each={deck()}>{(item) => <div>{item.value}</div>}</For> */}
+        <button
+          onClick={async () => {
+            await getCardResults(deck());
+          }}
+        >
+          {" "}
+          {"Call Api"}
+        </button>
       </header>
     </div>
   );
