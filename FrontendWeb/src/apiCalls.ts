@@ -9,12 +9,14 @@ const api = axios.create({
 
 export async function getCardResults(cards:Card[]){
     try {
+      const requestData = JSON.stringify({ cards });
+      console.log(requestData)
         const response = await api.get('/result', {
-          params: { cards }
+          params: {data:requestData}
         });
         console.log("response",response.data);
         return response.data
       } catch (error) {
-        console.log("error", error);
+        console.log(error);
       }
 }
