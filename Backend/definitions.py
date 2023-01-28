@@ -1,3 +1,8 @@
+# Data Structure Constants
+DATA_CARDLIST = 'cards'
+DATA_CARD_VALUE = 'value'
+DATA_CARD_COLOR = 'color'
+
 # Constants
 NUM_COLORS = 4
 NUM_CARDS_PER_COLOR = 13
