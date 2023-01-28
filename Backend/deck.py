@@ -1,4 +1,4 @@
-import definitions
+from Backend import definitions
 import random
 
 

@@ -1,4 +1,4 @@
-import definitions
+from Backend import definitions
 
 card_value_list = ["Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King",
                    "Ace"]
