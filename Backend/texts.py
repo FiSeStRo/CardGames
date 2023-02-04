@@ -1,5 +1,4 @@
 from Backend import definitions
-from Backend import converter
 
 card_value_list = ["Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King",
                    "Ace"]
@@ -16,5 +15,6 @@ def get_card_name_idx(card_idx: int, show_card_idx=False):
 
 
 def get_card_name_dict(card_dict: dict, show_card_idx=False):
+    from Backend import converter
     converted_card = converter.convert_dict_to_idx(card_dict)
     return get_card_name_idx(converted_card, show_card_idx)
