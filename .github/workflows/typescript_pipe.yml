@@ -23,5 +23,6 @@ jobs:
         npm install
     - name: build and test
       run: |
+        cd FrontendWeb
         npm build --if-present
         npm run test:cov
