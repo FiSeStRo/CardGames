@@ -19,12 +19,8 @@ jobs:
     # - name: change directory
     #   run: cd FrontendWeb
     - name: Install dependencies
-      run: cd FrontendWeb
-      uses: pnpm/action-setup@v2.2.4
-      with:
-        dest: FrontendWeb/node_modules
-        run_install: true
+      run: npm install
     
-    - run: pnpm ci
-    - run: pnpm build --if-present
-    - run: pnpm run test:cov
+    - run: npm ci
+    - run: npm build --if-present
+    - run: npm run test:cov
