@@ -1,7 +1,19 @@
-from Backend import definitions
+import json
+
 from flask import Flask, request, jsonify
 
+from Backend import definitions
+
 app = Flask(__name__)
+
+
+# CORS
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 
 # MainRoute
@@ -11,18 +23,11 @@ def index():
     return "HEllO WORLD"
 
 
-# Route to get results
-# input-param list of cards
-# return result card list
-@app.route("/result", methods=["GET"])
-def get_cards():
-    input_data = request.json
-    card_list = input_data[definitions.DATA_CARDLIST]
-    # ToDo use CardList to calculate result and return
-    result = {
-        "result": "myResult"
-    }
-    return jsonify(result)
+@app.route("/hand-results", methods=['POST'])
+def api():
+    cards = request.get_json()
+    print(cards)
+    return jsonify(cards)
 
 
 if __name__ == '__main__':
