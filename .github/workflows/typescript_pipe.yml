@@ -16,11 +16,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    # - name: change directory
-    #   run: cd FrontendWeb
+    - name: change directory
+      run: cd FrontendWeb
+
     - name: Install dependencies
       run: npm install
-    
-    - run: npm ci
+
     - run: npm build --if-present
     - run: npm run test:cov
