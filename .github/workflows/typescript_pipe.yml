@@ -16,10 +16,15 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - name: change directory
-      run: cd FrontendWeb
+    # - name: change directory
+    #   run: cd FrontendWeb
     - name: Install dependencies
+      run: cd FrontendWeb
       uses: pnpm/action-setup@v2.2.4
+      with:
+        dest: FrontendWeb/node_modules
+        run_install: true
+    
     - run: pnpm ci
     - run: pnpm build --if-present
     - run: pnpm run test:cov
