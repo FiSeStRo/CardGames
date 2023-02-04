@@ -3,12 +3,11 @@ from Backend import converter
 from Backend import texts
 from Backend import definitions
 
-card_list = [23, 14, 27, 20, 5, 0, 2]
-card_dict_list = converter.convert_hand_idx_to_dict(card_list)
+# string_hand = "AKQJTh3c5s"
+string_hand = "2Js89c7Th5d"
 
-for card_idx in card_list:
-    print(texts.get_card_name_idx(card_idx))
+print(texts.get_hand_name_string(string_hand))
 
-hand_ranking = ranking.calculate_hand_value(card_dict_list)
+hand_ranking = ranking.calculate_hand_value_str(string_hand)
 print("==== Result ====")
 print(texts.get_rank_name(hand_ranking))

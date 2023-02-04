@@ -1,4 +1,5 @@
 from Backend import definitions
+from Backend import converter
 
 
 def calculate_hand_value(card_list: dict):
@@ -11,10 +12,6 @@ def calculate_hand_value(card_list: dict):
     color_list.sort()
     value_list.sort()
 
-    # debug remove
-    check_for_full_house(value_list)
-    return definitions.RANK_HIGH_CARD
-
     if check_for_royal_flush(color_list, value_list):
         return definitions.RANK_ROYAL_FLUSH
 
@@ -22,28 +19,40 @@ def calculate_hand_value(card_list: dict):
     if is_straight_flush:
         return definitions.RANK_STRAIGHT_FLUSH
 
-    if check_for_four_of_a_kind(value_list):
+    is_foak, highest_card = check_for_four_of_a_kind(value_list)
+    if is_foak:
         return definitions.RANK_FOUR_OF_A_KIND
 
     if check_for_full_house(value_list):
         return definitions.RANK_FULL_HOUSE
 
-    if check_for_flush(color_list):
+    is_flush, highest_card = check_for_flush(color_list)
+    # TODO: highest flush not checkable with only the color list
+    if is_flush:
         return definitions.RANK_FLUSH
 
-    if check_for_straight(value_list):
+    is_straight, straight_highest_card = check_for_straight(value_list)
+    if is_straight:
         return definitions.RANK_STRAIGHT
 
-    if check_for_three_of_a_kind(value_list):
+    is_toak, highest_card = check_for_three_of_a_kind(value_list)
+    if is_toak:
         return definitions.RANK_THREE_OF_A_KIND
 
-    if check_for_two_pair(value_list):
+    is_two_pair, pair_list = check_for_two_pair(value_list)
+    if is_two_pair:
         return definitions.RANK_TWO_PAIR
 
-    if check_for_pair(value_list):
+    is_pair, pair_list = check_for_pair(value_list)
+    if is_pair:
         return definitions.RANK_ONE_PAIR
 
     return definitions.RANK_HIGH_CARD
+
+
+def calculate_hand_value_str(hand_string: str):
+    hand_dict = converter.convert_hand_str_to_dict(hand_string)
+    return calculate_hand_value(hand_dict)
 
 
 def check_for_royal_flush(color_list: list, value_list: list):
@@ -53,7 +62,7 @@ def check_for_royal_flush(color_list: list, value_list: list):
 
 def check_for_straight_flush(color_list: list, value_list: list):
     is_straight, straight_highest_card = check_for_straight(value_list)
-    is_flush = check_for_flush(color_list)
+    is_flush, flush_color = check_for_flush(color_list)
     return is_straight and is_flush, straight_highest_card
 
 
@@ -64,10 +73,11 @@ def check_for_four_of_a_kind(value_list: list):
 def check_for_full_house(value_list: list):
     is_toak, toak_card_value_list = check_for_three_of_a_kind(value_list)
     is_pair, pair_card_value_list = check_for_pair(value_list)
-    print(toak_card_value_list)
-    print(pair_card_value_list)
+    # TODO: implementation
+    # print(toak_card_value_list)
+    # print(pair_card_value_list)
 
-    print(list(set(toak_card_value_list) ^ set(pair_card_value_list)))
+    # print(list(set(toak_card_value_list) ^ set(pair_card_value_list)))
     return False
 
 
