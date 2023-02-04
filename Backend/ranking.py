@@ -11,10 +11,15 @@ def calculate_hand_value(card_list: dict):
     color_list.sort()
     value_list.sort()
 
-    if check_for_royal_flush(card_list):
+    # debug remove
+    check_for_full_house(value_list)
+    return definitions.RANK_HIGH_CARD
+
+    if check_for_royal_flush(color_list, value_list):
         return definitions.RANK_ROYAL_FLUSH
 
-    if check_for_straight_flush(card_list):
+    is_straight_flush, straight_highest_card = check_for_straight_flush(color_list, value_list)
+    if is_straight_flush:
         return definitions.RANK_STRAIGHT_FLUSH
 
     if check_for_four_of_a_kind(value_list):
@@ -41,12 +46,15 @@ def calculate_hand_value(card_list: dict):
     return definitions.RANK_HIGH_CARD
 
 
-def check_for_royal_flush(card_list: dict):
-    return False
+def check_for_royal_flush(color_list: list, value_list: list):
+    is_straight_flush, straight_highest_card = check_for_straight_flush(color_list, value_list)
+    return is_straight_flush and straight_highest_card == definitions.CARD_ACE
 
 
-def check_for_straight_flush(card_list: dict):
-    return False
+def check_for_straight_flush(color_list: list, value_list: list):
+    is_straight, straight_highest_card = check_for_straight(value_list)
+    is_flush = check_for_flush(color_list)
+    return is_straight and is_flush, straight_highest_card
 
 
 def check_for_four_of_a_kind(value_list: list):
@@ -54,6 +62,12 @@ def check_for_four_of_a_kind(value_list: list):
 
 
 def check_for_full_house(value_list: list):
+    is_toak, toak_card_value_list = check_for_three_of_a_kind(value_list)
+    is_pair, pair_card_value_list = check_for_pair(value_list)
+    print(toak_card_value_list)
+    print(pair_card_value_list)
+
+    print(list(set(toak_card_value_list) ^ set(pair_card_value_list)))
     return False
 
 
@@ -62,7 +76,22 @@ def check_for_flush(color_list: list):
 
 
 def check_for_straight(value_list: list):
-    return False
+    unique_value_list = list(dict.fromkeys(value_list))
+    if len(unique_value_list) < 5:
+        return False
+
+    straight_length = 0
+    last_checked_value = -2
+    for value in unique_value_list:
+        if value == last_checked_value + 1:
+            straight_length += 1
+        elif straight_length >= 5:
+            return True, last_checked_value
+        else:
+            straight_length = 1
+        last_checked_value = value
+
+    return straight_length >= 5, last_checked_value
 
 
 def check_for_three_of_a_kind(value_list: list):
@@ -80,7 +109,12 @@ def check_for_pair(value_list: list):
 def check_for_amount_of_cards(value_list: list, num_cards_required: int, num_occurence_required: int):
     value_dict = {i: value_list.count(i) for i in value_list}
     num_occurence_found = 0
-    for num_cards_found in value_dict.values():
+    card_values_found = []
+    for card_value, num_cards_found in value_dict.items():
         if num_cards_found >= num_cards_required:
             num_occurence_found += 1
-    return num_occurence_found >= num_occurence_required
+            card_values_found.append(card_value)
+
+    if len(card_values_found) > 1:
+        card_values_found = card_values_found.reverse()
+    return num_occurence_found >= num_occurence_required, card_values_found
