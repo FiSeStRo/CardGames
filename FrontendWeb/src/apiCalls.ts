@@ -7,11 +7,12 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
-export async function getCardResults(cards:Card[]){
+export async function postHandResults(cards:Card[]){
     try {
-      const requestData = JSON.stringify({ cards });
+      const test = JSON.stringify({ cards })
+      const requestData = JSON.parse(test);
       console.log(requestData)
-        const response = await api.get('/result', {
+        const response = await api.post('/hand-results', {
           params: {data:requestData}
         });
         console.log("response",response.data);
