@@ -65,6 +65,11 @@ def convert_hand_str_to_idx(card_str_hand):
     return idx_list
 
 
+def convert_hand_str_to_dict(card_str_hand):
+    card_list = convert_hand_str_to_idx(card_str_hand)
+    return convert_hand_idx_to_dict(card_list)
+
+
 def convert_str_group_to_idx(str_group: str):
     idx_list = []
     card_color = str_group[-1]

@@ -4,6 +4,19 @@ card_value_list = ["Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nin
                    "Ace"]
 card_color_list = ["Clubs", "Spades", "Hearts", "Diamonds"]
 
+ranking_list = {
+    definitions.RANK_HIGH_CARD: "High Card",
+    definitions.RANK_ONE_PAIR: "One Pair",
+    definitions.RANK_TWO_PAIR: "Two Pairs",
+    definitions.RANK_THREE_OF_A_KIND: "Three of a kind",
+    definitions.RANK_STRAIGHT: "Straight",
+    definitions.RANK_FLUSH: "Flush",
+    definitions.RANK_FULL_HOUSE: "Full House",
+    definitions.RANK_FOUR_OF_A_KIND: "Four of a kind",
+    definitions.RANK_STRAIGHT_FLUSH: "Straight Flush",
+    definitions.RANK_ROYAL_FLUSH: "Royal Flush",
+}
+
 
 def get_card_name_idx(card_idx: int, show_card_idx=False):
     card_value = card_idx % definitions.NUM_CARDS_PER_COLOR
@@ -18,3 +31,13 @@ def get_card_name_dict(card_dict: dict, show_card_idx=False):
     from Backend import converter
     converted_card = converter.convert_dict_to_idx(card_dict)
     return get_card_name_idx(converted_card, show_card_idx)
+
+
+def get_rank_name(rank: int):
+    return ranking_list[rank]
+
+
+def get_hand_name_string(hand_string: str):
+    from Backend.converter import convert_hand_str_to_idx
+    return ', '.join(list(map(get_card_name_idx, convert_hand_str_to_idx(hand_string))))
+
