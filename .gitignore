@@ -135,4 +135,8 @@ dmypy.json
 
 FrontendWeb/node_modules/
 FrontendWeb/dist/
+FrontendWeb/coverage
+node_modules/
+dist/
+coverage/
 

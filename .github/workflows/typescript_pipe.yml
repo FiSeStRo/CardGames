@@ -1,0 +1,47 @@
+name: Frontend TypeScript Pipeline
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 7.26.1
+    - run: pnpm install
+    # - uses: actions/upload-artifact@v3
+    #   with:
+    #     name: node_modules
+    #     path: node_modules
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    # - uses: actions/download-artifact@v3
+    #   with:
+    #     name: node_modules
+    #     path: node_modules
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 7.26.1
+    - run: pnpm install
+    - run: pnpm test:cov
