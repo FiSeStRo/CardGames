@@ -73,11 +73,8 @@ def check_for_four_of_a_kind(value_list: list):
 def check_for_full_house(value_list: list):
     is_toak, toak_card_value_list = check_for_three_of_a_kind(value_list)
     is_pair, pair_card_value_list = check_for_pair(value_list)
-    # TODO: implementation
-    # print(toak_card_value_list)
-    # print(pair_card_value_list)
-
-    # print(list(set(toak_card_value_list) ^ set(pair_card_value_list)))
+    if is_toak and is_pair:
+        return len(list(set(pair_card_value_list) - set(toak_card_value_list))) > 0
     return False
 
 
@@ -88,7 +85,7 @@ def check_for_flush(color_list: list):
 def check_for_straight(value_list: list):
     unique_value_list = list(dict.fromkeys(value_list))
     if len(unique_value_list) < 5:
-        return False
+        return False, 0
 
     straight_length = 0
     last_checked_value = -2
@@ -105,7 +102,10 @@ def check_for_straight(value_list: list):
 
 
 def check_for_three_of_a_kind(value_list: list):
-    return check_for_amount_of_cards(value_list, 3, 1)
+    is_toak, toak_value_list = check_for_amount_of_cards(value_list, 3, 1)
+    if is_toak and len(toak_value_list) > 1:
+        return is_toak, toak_value_list[:1] # return only list with first value
+    return is_toak, toak_value_list
 
 
 def check_for_two_pair(value_list: list):
@@ -126,5 +126,5 @@ def check_for_amount_of_cards(value_list: list, num_cards_required: int, num_occ
             card_values_found.append(card_value)
 
     if len(card_values_found) > 1:
-        card_values_found = card_values_found.reverse()
+        card_values_found.reverse()
     return num_occurence_found >= num_occurence_required, card_values_found

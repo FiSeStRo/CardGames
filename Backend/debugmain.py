@@ -4,7 +4,8 @@ from Backend import texts
 from Backend import definitions
 
 # string_hand = "AKQJTh3c5s"
-string_hand = "2Js89c7Th5d"
+# string_hand = "236s2c23h9d"
+string_hand = "236s2c23h3d"
 
 print(texts.get_hand_name_string(string_hand))
 
